@@ -469,10 +469,10 @@
         <img src="images/sittie4.jpeg" alt="Sittie">
     </div>
 </div>
-    <audio id="secretMusic" loop>
+    <audio id="secretMusic" autoplay loop>
         <source src="music/secret.mp3" type="audio/mpeg">
     </audio>
-    
+        
     <script>
         // Background Ambient Hearts & Petals
         function createAmbientEffects() {
@@ -502,6 +502,10 @@
 
         // Core Interaction Trigger
         function openGift(giftElement) {
+            const music = document.getElementById("secretMusic");
+            music.play().catch(error => {
+                console.log("Music couldn't start:", error);
+            });
             const lid = giftElement.querySelector('.lid');
             const bow = giftElement.querySelector('.bow');
             
@@ -598,8 +602,6 @@
             }, 1000);
         }
         function showSurprise() {
-            const music = document.getElementById("secretMusic");
-            music.play().catch(err => console.log(err));
 
             // Fade out everything on the birthday screen
             document.querySelector(".headline").style.opacity = "0";
