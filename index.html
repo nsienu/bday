@@ -249,7 +249,43 @@
             font-weight: 400;
             white-space: pre-line;
         }
+        /* Photo Gallery */
+        .photo-gallery{
+            display:flex;
+            justify-content:center;
+            gap:15px;
+            flex-wrap:wrap;
+            margin-bottom:25px;
+            opacity:0;
+            transform:translateY(30px);
+            transition:1.5s;
+        }
 
+        .photo-gallery.show{
+            opacity:1;
+            transform:translateY(0);
+        }
+
+        .photo-gallery img{
+            width:170px;
+            height:220px;
+            object-fit:cover;
+            border-radius:18px;
+            border:5px solid white;
+            box-shadow:0 10px 25px rgba(0,0,0,.25);
+            transition:.4s;
+        }
+
+        .photo-gallery img:hover{
+            transform:scale(1.08) rotate(-2deg);
+        }
+
+        @media(max-width:480px){
+            .photo-gallery img{
+                width:120px;
+                height:160px;
+            }
+        }
         /* Responsive scaling */
         @media(max-width: 480px) {
             .headline { font-size: 48px; }
@@ -278,6 +314,11 @@
     <div id="displayStage">
         <h1 class="headline">Happy Birthday</h1>
         <h2 class="name-banner">🌺 Sittie Alliyah Mamolindas 🌺</h2>
+        <div class="photo-gallery">
+        <img src="sittie.jpg" alt="Sittie 1">
+        <img src="sittie2.jpg" alt="Sittie 2">
+        <img src="sittie3.jpg" alt="Sittie 3">
+    </div>
         
         <div class="letter-wrap" id="letter">
             <p class="letter-text" id="typewriterText"></p>
@@ -377,6 +418,7 @@
                 
                 // Slide up letter wrapper
                 setTimeout(() => {
+                    document.querySelector(".photo-gallery").classList.add("show");
                     document.getElementById("letter").classList.add("open");
                     startTypewriter();
                 }, 800);
