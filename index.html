@@ -231,6 +231,7 @@
         }
 
        #surpriseContent{
+    
             position:absolute;
             top:0;
             left:0;
@@ -257,7 +258,24 @@
             overflow-y:auto;
             padding-bottom:80px;
         }
+        #backBtn{
+            margin-top:30px;
+            padding:12px 30px;
+            border:none;
+            border-radius:30px;
+            background:#ff4d79;
+            color:white;
+            font-size:16px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:.3s;
+            box-shadow:0 8px 20px rgba(0,0,0,.25);
+        }
 
+#backBtn:hover{
+    background:#ff2d63;
+    transform:scale(1.08);
+}
         .letter-wrap{
             max-width:650px;
         }
@@ -413,7 +431,7 @@
 
 <div id="surpriseContent">
     <h1 class="headline">A Secret Message 💌</h1>
-
+    
     <div class="letter-wrap open">
         <p class="letter-text">
             Hello Sittie,
@@ -427,7 +445,9 @@
             Happy Birthday once again! 🌸❤️
         </p>
     </div>
-
+    <button id="backBtn" onclick="goBack()">
+        ⬅ Back
+    </button>
     <div class="extra-gallery">
         <img src="images/sittie.jpg">
         <img src="images/sittie5.jpg">
@@ -536,6 +556,31 @@
                     startTypewriter();
                 }, 800);
             }, 1200);
+        }
+        function goBack() {
+
+            // Hide the secret page
+            document.getElementById("surpriseContent").classList.remove("active");
+
+            setTimeout(() => {
+
+                // Show the birthday page again
+                document.querySelector(".headline").style.display = "block";
+                document.querySelector(".name-banner").style.display = "block";
+                document.querySelector(".photo-gallery").style.display = "flex";
+                document.getElementById("letter").style.display = "block";
+                document.getElementById("surpriseBtn").style.display = "inline-block";
+
+                // Fade them back in
+                setTimeout(() => {
+                    document.querySelector(".headline").style.opacity = "1";
+                    document.querySelector(".name-banner").style.opacity = "1";
+                    document.querySelector(".photo-gallery").style.opacity = "1";
+                    document.getElementById("letter").style.opacity = "1";
+                    document.getElementById("surpriseBtn").style.opacity = "1";
+                }, 100);
+
+            }, 1000);
         }
         function showSurprise() {
             const music = document.getElementById("secretMusic");
