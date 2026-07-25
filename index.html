@@ -13,15 +13,17 @@
         }
 
         body {
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             font-family: 'Poppins', sans-serif;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             background: linear-gradient(135deg, #ffe3ec, #ffb6c1, #fff0f5);
             position: relative;
             perspective: 1000px;
+            padding: 20px;
         }
 
         /* Ambient Elements */
@@ -189,7 +191,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -205,6 +207,87 @@
         #displayStage.active {
             opacity: 1;
             pointer-events: auto;
+        }
+
+        /* Secret Message Button */
+        #surpriseBtn{
+            display: none;
+            margin: 30px auto 0;
+            padding: 14px 35px;
+            border: none;
+            border-radius: 30px;
+            background: #ff4d79;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .3s;
+            box-shadow: 0 8px 20px rgba(0,0,0,.25);
+        }
+
+        #surpriseBtn:hover{
+            background: #ff2d63;
+            transform: scale(1.08);
+        }
+
+       #surpriseContent{
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            min-height:100vh;
+
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            padding:20px;
+
+            opacity:0;
+            visibility:hidden;
+            transition:1s ease;
+        }
+
+        #surpriseContent.active{
+            opacity:1;
+            visibility:visible;
+        }
+        #displayStage,
+        #surpriseContent{
+            overflow-y:auto;
+            padding-bottom:80px;
+        }
+
+        .letter-wrap{
+            max-width:650px;
+        }
+
+        .extra-gallery{
+            margin-bottom:60px;
+        }
+
+        .extra-gallery{
+            display:flex;
+            gap:15px;
+            margin-top:25px;
+            flex-wrap:wrap;
+            justify-content:center;
+        }
+
+        .extra-gallery img{
+            width:170px;
+            height:220px;
+            object-fit:cover;
+            border-radius:15px;
+            border:5px solid white;
+            box-shadow:0 10px 20px rgba(0,0,0,.25);
+        }
+
+        @media(max-width:480px){
+            .extra-gallery img{
+                width:120px;
+                height:160px;
+            }
         }
 
         .headline {
@@ -322,8 +405,39 @@
         <div class="letter-wrap" id="letter">
             <p class="letter-text" id="typewriterText"></p>
         </div>
+
+        <!-- Hidden Message -->
+        <button id="surpriseBtn" onclick="showSurprise()">
+            🔒 SECRET MESSAGE
+        </button>
+
+<div id="surpriseContent">
+    <h1 class="headline">A Secret Message 💌</h1>
+
+    <div class="letter-wrap open">
+        <p class="letter-text">
+            Hello Sittie,
+
+            This is the secret part of your birthday surprise. 😊
+            I just want you to know that you're an amazing person and I hope
+            this year gives you countless reasons to smile.
+
+            Stay happy, stay healthy, and never stop believing in yourself.
+
+            Happy Birthday once again! 🌸❤️
+        </p>
     </div>
 
+    <div class="extra-gallery">
+        <img src="images/sittie.jpg">
+        <img src="images/sittie5.jpg">
+        <img src="images/sittie6.jpg">
+    </div>
+</div>
+    <audio id="secretMusic" loop>
+        <source src="music/secret.mp3" type="audio/mpeg">
+    </audio>
+    
     <script>
         // Background Ambient Hearts & Petals
         function createAmbientEffects() {
@@ -423,21 +537,46 @@
                 }, 800);
             }, 1200);
         }
+        function showSurprise() {
+            const music = document.getElementById("secretMusic");
+            music.play().catch(err => console.log(err));
 
+            // Fade out everything on the birthday screen
+            document.querySelector(".headline").style.opacity = "0";
+            document.querySelector(".name-banner").style.opacity = "0";
+            document.querySelector(".photo-gallery").style.opacity = "0";
+            document.getElementById("letter").style.opacity = "0";
+            document.getElementById("surpriseBtn").style.opacity = "0";
+
+            // After fade out, show the secret screen
+            setTimeout(() => {
+                document.querySelector(".headline").style.display = "none";
+                document.querySelector(".name-banner").style.display = "none";
+                document.querySelector(".photo-gallery").style.display = "none";
+                document.getElementById("letter").style.display = "none";
+                document.getElementById("surpriseBtn").style.display = "none";
+
+                document.getElementById("surpriseContent").classList.add("active");
+            }, 1000);
+        }
         // Heartfelt message typewriter function
         const loveLetterText = `Hello Sittieee, Happy 23th Birthday! Yes alam ko birth date mo HAHAHA, sorry kumuha ako pictures mo without your permission, ano ba magagawa mo? di joke lang. masasabi kolang is bawasan ang init ng ulo HAHAHA, live your life the way you want, hopefully bagsakan kanang maraming maraming blessings and opportunities, wish you all the best, enjoy your day takeee caree! - HUSSIEN`;
 
         function startTypewriter() {
             const element = document.getElementById("typewriterText");
             let index = 0;
-            
+
             function type() {
                 if (index < loveLetterText.length) {
                     element.innerHTML += loveLetterText.charAt(index);
                     index++;
                     setTimeout(type, 35);
+                } else {
+                    // Show the button after typing finishes
+                    document.getElementById("surpriseBtn").style.display = "inline-block";
                 }
             }
+
             type();
         }
     </script>
